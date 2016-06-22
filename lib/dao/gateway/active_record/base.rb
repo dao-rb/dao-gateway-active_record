@@ -2,6 +2,8 @@ module Dao
   module Gateway
     module ActiveRecord
       class Base < Dao::Gateway::Base
+        include ActiveSupport::Rescuable
+
         def initialize(source, transformer)
           super
           @black_list_attributes += source_relations
@@ -15,10 +17,10 @@ module Dao
           domain
         rescue ::ActiveRecord::RecordInvalid
           raise Dao::Gateway::InvalidRecord.new(record.errors.to_hash)
-        rescue CarrierWave::FormNotMultipart => e
-          raise Dao::Gateway::InvalidRecord.new(base: e.message)
         rescue ::ActiveRecord::RecordNotFound => e
           raise Dao::Gateway::RecordNotFound, e.message
+        rescue Exception => e
+          rescue_with_handler(e) || raise
         end
 
         def delete(domain_id)
