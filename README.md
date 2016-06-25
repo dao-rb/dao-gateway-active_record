@@ -23,8 +23,8 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'dao/entity/base'
-require 'dao/repository/base'
+require 'dao/entity'
+require 'dao/repository'
 require 'dao/gateway/active_record'
 
 class Comment < ApplicationRecord
