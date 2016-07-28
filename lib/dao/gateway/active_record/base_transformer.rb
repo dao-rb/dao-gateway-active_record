@@ -8,15 +8,8 @@ module Dao
 
         private
 
-        def transform(relation)
-          super(relation) do |record|
-            collect_attributes(record, associations)
-          end
-        end
-
-        def collect_attributes(record, associations)
-          associations = associations.first if associations.count == 1
-          ::HashWithIndifferentAccess.new(record.try(:serializable_hash, force_except: [], include: associations))
+        def add_processors
+          @processors.unshift RecordProcessor.new
         end
       end
     end
