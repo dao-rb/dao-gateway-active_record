@@ -52,19 +52,6 @@ module Dao
           record
         end
 
-        def import(relation, associations)
-          @transformer.associations = associations
-          unless relation.nil?
-            if collection_scope?(relation)
-              @transformer.many(relation)
-            elsif source_scope?(relation)
-              @transformer.one(relation)
-            else
-              @transformer.other(relation)
-            end
-          end
-        end
-
         def record(domain_id)
           source.find_by_id(domain_id) if domain_id.present?
         end
@@ -72,8 +59,6 @@ module Dao
         def source_relations
           @_relations ||= @source.reflections.keys.map(&:to_sym)
         end
-
-        private
 
         def collection_scope?(relation)
           if relation.is_a?(::ActiveRecord::Relation)
@@ -83,10 +68,6 @@ module Dao
           else
             false
           end
-        end
-
-        def source_scope?(relation)
-          relation.is_a?(source)
         end
       end
     end

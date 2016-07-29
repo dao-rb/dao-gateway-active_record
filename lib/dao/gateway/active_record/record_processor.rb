@@ -2,10 +2,12 @@ module Dao
   module Gateway
     module ActiveRecord
       class RecordProcessor < Gateway::Processor
-        def process(record, associations, *)
-          associations = associations.first if associations.count == 1
+        def prepared
+          @associations = @associations.first if @associations.count == 1
+        end
 
-          ::HashWithIndifferentAccess.new(record.try(:serializable_hash, force_except: [], include: associations))
+        def process(record)
+          ::HashWithIndifferentAccess.new(record.try(:serializable_hash, force_except: [], include: @associations))
         end
       end
     end
