@@ -33,8 +33,15 @@ module Dao
           raise Dao::Gateway::RecordNotFound, e.message
         end
 
-        def add_relations(scope, relations)
-          scope.eager_load(*relations)
+        def add_relations(scope, relations, options)
+          case options[:strategy]
+            when :preload
+              scope.preload(*relations)
+            when :includes
+              scope.includes(*relations)
+            else
+              scope.eager_load(*relations)
+          end
         end
 
         def with_transaction(&block)
