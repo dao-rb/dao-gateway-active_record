@@ -50,7 +50,7 @@ module Dao
 
         def with_lock(id, &block)
           source.transaction do
-            source.lock!.find(id)
+            source.lock.find(id)
             block.call
           end
         end
