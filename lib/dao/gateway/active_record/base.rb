@@ -48,6 +48,12 @@ module Dao
           source.transaction(&block)
         end
 
+        def with_lock(id)
+          source.find(id).with_lock do
+            yield
+          end
+        end
+
         protected
 
         def export(base, record = nil)
