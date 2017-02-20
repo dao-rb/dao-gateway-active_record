@@ -48,6 +48,16 @@ module Dao
           source.transaction(&block)
         end
 
+        def with_lock(id, *args, &block)
+          source.transaction do
+            source.lock(*args).find(id)
+            block.call
+          end
+
+        rescue ActiveRecord::StatementInvalid => e
+          raise Dao::Gateway::StatementInvalid, e.message
+        end
+
         protected
 
         def export(base, record = nil)
