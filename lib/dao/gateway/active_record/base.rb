@@ -53,6 +53,9 @@ module Dao
             source.lock(*args).find(id)
             block.call
           end
+
+        rescue ActiveRecord::StatementInvalid => e
+          raise Dao::Gateway::StatementInvalid, e.message
         end
 
         protected
