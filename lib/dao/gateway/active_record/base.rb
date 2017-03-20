@@ -54,7 +54,7 @@ module Dao
             block.call
           end
 
-        rescue ActiveRecord::StatementInvalid => e
+        rescue ::ActiveRecord::StatementInvalid => e
           raise Dao::Gateway::StatementInvalid, e.message
         end
 
