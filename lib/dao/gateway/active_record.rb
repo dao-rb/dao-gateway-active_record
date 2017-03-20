@@ -5,6 +5,7 @@ require 'active_record'
 require 'active_support/hash_with_indifferent_access'
 require 'active_support/rescuable'
 
+require 'dao/gateway/active_record/statement_invalid'
 require 'dao/gateway/active_record/record_processor'
 require 'dao/gateway/active_record/base'
 require 'dao/gateway/active_record/base_transformer'
