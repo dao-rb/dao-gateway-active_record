@@ -19,6 +19,8 @@ module Dao
           raise Dao::Gateway::InvalidRecord.new(record.errors.to_hash)
         rescue ::ActiveRecord::RecordNotFound => e
           raise Dao::Gateway::RecordNotFound, e.message
+        rescue ::ActiveRecord::RecordNotUnique => e
+          raise Dao::Gateway::RecordNotUnique, e.message
         rescue Exception => e
           rescue_with_handler(e) || raise
         end
